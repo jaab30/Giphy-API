@@ -1,0 +1,125 @@
+html {
+    box-sizing: border-box;
+    height: 100%;
+    }
+*, *:before, *:after {
+    box-sizing: inherit;
+    }
+
+body {
+   /* background-color: beige; */
+   background-image: url("../images/subtle_stripes.png");
+    }
+
+h1{
+    /* background-color: blue; */
+    font-family: 'Abril Fatface', cursive;
+    font-size: 3em;
+    /* color: white;
+    text-shadow: 2px 2px gray; */
+    /* -webkit-text-stroke: 2px black; */
+    color: rgb(94, 168, 218);
+    text-shadow:
+       2px 2px 0 #000,
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+}
+
+main{
+    /* background-color: red; */
+    
+    }
+
+#actors-form{
+    background-color: rgb(238, 238, 238, 0.8);
+    border: solid 1px rgb(180, 180, 180);
+    padding: 20px 0 20px 0px;  
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+    font-size: 0.8em;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 1px 1px 20px rgb(187, 187, 187);
+
+    }
+
+.submitBtn {
+    margin-top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    padding: 3px 7px;
+    font-weight: 500;
+    border-radius: 4em;
+    border: none;
+    border: solid 1px rgb(180, 180, 180);
+    box-shadow: 1px 1px 10px rgb(187, 187, 187);
+    }
+
+.submitBtn:hover {
+    background-color:rgb(199, 199, 199);
+    }
+
+button{
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0.3em 0.3em 0.3em 0.3em;
+    border-radius:2em;
+    border: none;
+    box-shadow: 2px 2px 10px rgb(179, 179, 179);
+    /* box-sizing: border-box; */
+    /* text-decoration:none; */
+    font-weight:500;
+    color:#FFFFFF;
+    background-color:rgb(56, 121, 163);
+    text-align:center;
+    font-size: 0.8em;
+    transition: all 0.2s;
+    }
+button:hover {
+    background-color:#4095c6;
+    }
+
+
+
+#button-container{
+    /* background-color: green; */
+
+    }
+.display-gif{
+    /* background-color: rgb(165, 115, 165); */
+    text-align: center;
+    padding-left: 30px;
+    margin-bottom: 20px;
+
+
+    } 
+.display-favorites{
+    /* background-color: rgb(115, 165, 165); */
+    }  
+.imageDiv{
+    float: left;
+    background-color: white;
+    padding-top:10px;
+    margin: 2em 0.3em 0.3em 0.3em;
+    color: black;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    border: solid 1px black;
+    box-shadow: 3px 3px 30px gray;
+    }
+img {
+    width: 300px;
+    height:200px;
+    padding: 5px;
+    /* margin: 10px; */
+
+    }
+
+
+
+/* font-family: 'Abril Fatface', cursive;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Raleway', sans-serif;
+font-family: 'Dosis', sans-serif; */
