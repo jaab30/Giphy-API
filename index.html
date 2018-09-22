@@ -55,6 +55,11 @@
         var topics = ["Will Ferrell","Ben Stiller","Vince Vaughn","Tina Fey","Jason Bateman","Jonah Hill","Amy Poehler","Dana Carvey","Seth Rogers","Jim Carey","Mike Myers","Amy Schumer"];
      
      generateButtons() 
+     var introMessage = $("<p class=introText>");
+        introMessage.text("Click a button or enter a name.")
+     $("#button-container").append(introMessage)
+
+
      
      function generateButtons(){
          $("#button-container").empty()
@@ -79,7 +84,8 @@
      function displayApiInformation(){
             var userInput = $(this).attr("data-name");
             $("#display-results").empty()
-             queryURL = "http://api.giphy.com/v1/gifs/search?q=" + userInput + "&api_key=fyFW7rwb11eooeSk5j59XkoxFnPNyYcA&limit=10"
+            introMessage.text("")
+             queryURL = "https://api.giphy.com/v1/gifs/search?q=" + userInput + "&api_key=fyFW7rwb11eooeSk5j59XkoxFnPNyYcA&limit=10"
  
  
              $.ajax({
