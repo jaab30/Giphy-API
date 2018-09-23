@@ -96,12 +96,17 @@ button:hover {
     /* background-color: rgb(165, 115, 165); */
     text-align: center;
     padding-left: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 0 0 20px;
 
 
     } 
 .display-favorites{
     /* background-color: rgb(115, 165, 165); */
+    padding-right: 10px;
+    text-align: center;
+
+
+
     }  
 .imageDiv{
     float: left;
@@ -120,6 +125,34 @@ img {
     padding: 5px;
     /* margin: 10px; */
 
+    }
+    .favImg{
+        width:150px;
+        height:90px;
+        box-shadow: 1px 1px 20px rgb(121, 121, 121);
+        background-color: white;
+        margin: 5px;
+    }
+
+    #next12 {
+        margin-top: 20px;
+
+
+    }
+    h2 {
+        font-family: 'Dosis', sans-serif;
+        text-align: center;
+        font-size: 2em;
+        font-weight: 700;
+        border-bottom: solid 2px gray;
+        /* box-shadow: 1px 1px 20px rgb(187, 187, 187); */
+
+
+    }
+    .fav {
+        width:30px;
+        height:30px;
+        margin-left: 20px;
     }
 
 
