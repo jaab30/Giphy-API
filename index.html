@@ -33,70 +33,77 @@
 
                     <input id="add-actor" class="submitBtn" type="submit" value="Submit">   
             </form>
-            <div id="button-container" class="col-sm-6">
+            <div id="button-container" class="col-sm-5">
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
             </div>
         </div>
-        <div class="row">
+        <div class="row test">
             <div class="col-sm-8 display-gif">
-                <div id="display-results">
-                </div>
+                <div class="row">
+                    <div class="col-sm-12" id="display-results">
+                    </div> 
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12 next12-results">
+                    </div>
+                </div>    
             </div>
-            <div class="col-sm-4 display-favorites">
+            <div class="col-sm-3 display-favorites">
                 <div id="favorites">
                     <h2>Favorites</h2>
                 </div>
+            </div>
+            <div class="col-sm-1">
             </div>
         </div>
     </main>
 
     <script type="text/javascript">
-
+// set up Array with choices
         var topics = ["Will Ferrell","Ben Stiller","Vince Vaughn","Tina Fey","Jason Bateman","Jonah Hill","Amy Poehler","Dana Carvey","Seth Rogers","Jim Carey","Mike Myers","Amy Schumer"];
      
-     generateButtons() 
-     var introMessage = $("<p class=introText>");
+// display text with initial Instructions
+        introMessage = $("<p class=introText>")
         introMessage.text("Click a button or enter a name.")
-     $("#button-container").append(introMessage)
+        $("#button-container").append(introMessage)
 
-
-     
+// run function to create buttons
+     generateButtons() 
+// function for creating inital buttons from array    
      function generateButtons(){
          $("#button-container").empty()
          for (var i = 0; i < topics.length; i++){
-             // console.log(actors[i])
              var displayButton = $("<button>");
              displayButton.addClass("actor-btn").attr("data-name",topics[i]).text(topics[i])
              $("#button-container").append(displayButton)
              }                   
          }
- 
+ // Form to receive input from user        
      $("#add-actor").on("click" , function(event){
              event.preventDefault()
              var input = $("#actors-input").val()
              topics.push(input)
              generateButtons() 
-                
      })
  
+// Display API data when any button from the comedians choices is pressed     
      $(document).on("click", ".actor-btn", displayApiInformation)
- 
+
+ // function to display API data
      function displayApiInformation(){
             var userInput = $(this).attr("data-name");
             $("#display-results").empty()
             introMessage.text("")
              queryURL = "https://api.giphy.com/v1/gifs/search?q=" + userInput + "&api_key=fyFW7rwb11eooeSk5j59XkoxFnPNyYcA&limit=99"
  
- 
+ // get the data from API
              $.ajax({
                  url: queryURL,
                  method:"GET"
              }).then(function(response){
-                console.log(response)
-                var resultDiv = $("<div>"),
-                    responseLength = response.data.length
-                    
+                var resultDiv = $("<div>");
+// get data from API and display. Include class and data attr to toggle between animate and still
                     for (var i = 0; i < 12; i++){
                         imageDiv = $("<div class='imageDiv'>")
                         ratingP = $("<p>")
@@ -108,17 +115,42 @@
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
                         ratingP.append(favStar)
+                        
                         }
                        
                     $("#display-results").prepend(resultDiv)
-                    var nextBtn = $("<button id='next12'>")
+                    var nextBtnDiv = $("<div class='nextBtn'>"),
+                        nextBtn = $("<button id='next12'>")
                     nextBtn.text("Show next 12")
-                    resultDiv.append(nextBtn)
+                    nextBtnDiv.append(nextBtn)
+                    $(".next12-results").empty()
+                    $(".next12-results").append(nextBtnDiv)
                     console.log(i)
                     gifAnimate()
-                    favBtn() 
-                    
-                    
+                   
+
+                    $("#next12").on("click", function(){
+                        for (var j = i; j < (i + 12); j++){
+                        imageDiv = $("<div class='imageDiv'>")
+                        ratingP = $("<p>")
+                        ratingP.text("Rating: " + response.data[j].rating)
+                        favStar = $("<img class='fav'>")
+                        favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",j)
+                        image = $("<img class='image'>").attr("src", response.data[j].images.downsized_still.url).attr("data-still",response.data[j].images.downsized_still.url).attr("data-animate",response.data[j].images.downsized.url).attr("data-state","still").addClass("gif").addClass("gif12")
+                        imageDiv.append(image)
+                        imageDiv.append(ratingP)
+                        resultDiv.append(imageDiv)
+                        ratingP.append(favStar)
+                        favBtn()
+                        }
+                        i = i + 12;
+                        // resultDiv.append(h);
+                        $(".next12-results").append(nextBtnDiv)
+                        gifAnimate12()
+
+                    })
+
+// function to toggle between gif still and gif animate for first 12
                     function gifAnimate(){
                         $(".gif").on("click", function() {
                         var state = $(this).attr("data-state")
@@ -131,6 +163,8 @@
                             }
                         })
                     }
+
+// function to toggle between gif still and gif animate for next 12
                     function gifAnimate12(){
                         $(".gif12").on("click", function() {
                         var state = $(this).attr("data-state")
@@ -144,41 +178,23 @@
                         })
                     }
                     
+// function to toggle between gif still and gif animate for Favorites
+                    // function favAnimate(){
+                    //     $(".favImg").on("click", function() {
+                    //     var state = $(this).attr("data-state")
+                    //         if (state === "still") {
+                    //         $(this).attr("src", $(this).attr("data-animate"))
+                    //         $(this).attr("data-state","animate")
+                    //         } else {
+                    //         $(this).attr("src", $(this).attr("data-still"))
+                    //         $(this).attr("data-state","still")
+                    //         }
+                    //     })
+                    // }
 
-                    function favAnimate(){
-                        $(".favImg").on("click", function() {
-                        var state = $(this).attr("data-state")
-                            if (state === "still") {
-                            $(this).attr("src", $(this).attr("data-animate"))
-                            $(this).attr("data-state","animate")
-                            } else {
-                            $(this).attr("src", $(this).attr("data-still"))
-                            $(this).attr("data-state","still")
-                            }
-                        })
-                    }
-
-                    $("#next12").on("click", function(){
-                        h = $("#next12").detach()
-                        for (var j = i; j < (i + 12); j++){
-                        imageDiv = $("<div class='imageDiv'>")
-                        ratingP = $("<p>")
-                        ratingP.text("Rating: " + response.data[j].rating)
-                        favStar = $("<img class='fav'>")
-                        favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",j)
-                        image = $("<img class='image'>").attr("src", response.data[j].images.downsized_still.url).attr("data-still",response.data[j].images.downsized_still.url).attr("data-animate",response.data[j].images.downsized.url).attr("data-state","still").addClass("gif").addClass("gif12")
-                        imageDiv.append(image)
-                        imageDiv.append(ratingP)
-                        resultDiv.append(imageDiv)
-                        ratingP.append(favStar)
-                        }
-                        i = i + 12;
-                        resultDiv.append(h);
-                        gifAnimate12()
-                        favBtn()
-                        })
+                    
                         
-                        
+//function to make gif display on Favorite section and to change Fav Star image and status               
                         function favBtn(){
                             $(".fav").on("click", function(){
                                 console.log("test")
@@ -186,9 +202,9 @@
                                 
                                 var favGif = $(this).attr("value"),
                                     imageFav = $("<img class='image'>").attr("src", response.data[favGif].images.fixed_width_small_still.url).attr("data-still",response.data[favGif].images.fixed_width_small_still.url).attr("data-animate",response.data[favGif].images.fixed_width_small.url).attr("data-state","still").addClass("favGif" + favGif).addClass("favImg").addClass("gif")
-                                console.log(favGif)
+                                
                                 if (fav === "false"){
-                                    $("#favorites").append(imageFav)
+                                    $("#favorites").append(imageFav);
                                     $(this).attr("src","assets/images/fav-filled.png")
                                     ratingP.append(favStar)
                                     $(this).attr("data-fav","true");
@@ -199,13 +215,17 @@
                                     $(this).attr("data-fav","false");
                                     $(".favGif" + favGif).remove()
                                 }
-                                favAnimate()
+                                // favAnimate()
+                                gifAnimate()
+                                
                             })
+                           
                         }
 
                         
                         
-
+                favBtn()
+                
              })
     
              
