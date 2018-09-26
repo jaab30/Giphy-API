@@ -143,6 +143,7 @@
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
                         gifAnimate12()
+                        favBtn()
                         }
                         i = i + 12;
                         // resultDiv.append(h);
@@ -196,7 +197,7 @@
                         
 //function to make gif display on Favorite section and to change Fav Star image and status               
                       function favBtn(){
-                            $(document).on("click", ".fav", function(){
+                            $(".fav").on("click", function(){
 
                                 var fav = $(this).attr("data-fav"); 
                                 
