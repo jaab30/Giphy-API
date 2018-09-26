@@ -40,10 +40,9 @@ h1 {
     text-align: center;
     box-shadow: 1px 1px 20px rgb(187, 187, 187);
     }
+
 #actors-input {
     width: 100%;
-
-
     }
 
 .submitBtn {
@@ -76,6 +75,7 @@ button{
     font-size: 0.8em;
     transition: all 0.2s;
     }
+
 button:hover {
     background-color:#4095c6;
     }
@@ -92,7 +92,6 @@ button:hover {
   .nextBtn {
       text-align: right;
   }
-
 
 .display-favorites{
     padding-right: 10px;
@@ -130,7 +129,6 @@ img {
         padding-right: 40px;
     }
    
-
     h2 {
         font-family: 'Dosis', sans-serif;
         text-align: center;
@@ -142,7 +140,7 @@ img {
     .fav {
         width:30px;
         height:30px;
-        margin-left: 40px;
+        margin-left: 20px;
     }
 
     .weatherImg{
@@ -170,14 +168,6 @@ img {
     .weather p:last-child{
         font-weight: normal;
         font-size:0.8em;
-    }
-
-    .download {
-
-        width:30px;
-        height:30px;
-        text-align: left;
-        margin-right: 30px;
     }
 
 

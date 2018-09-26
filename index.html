@@ -109,34 +109,27 @@
              }).then(function(response){
                 var resultDiv = $("<div>");
 // get data from API and display. Include class and data attr to toggle between animate and still
-console.log(response.data[0].images.downsized.url)
+
                     for (var i = 0; i < 12; i++){
-                        
                         imageDiv = $("<div class='imageDiv'>")
                         ratingP = $("<p>")
                         ratingP.text("Rating: " + response.data[i].rating)
                         favStar = $("<img class='fav'>").attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",i)
                         image = $("<img class='image'>").attr("src", response.data[i].images.downsized_still.url).attr("data-still",response.data[i].images.downsized_still.url).attr("data-animate",response.data[i].images.downsized.url).attr("data-state","still").addClass("gif")
-                        downloadGif = $("<a href='" + response.data[i].images.downsized.url+"' target='_blank'><img class='download' src='assets/images/download.png'></a>")
                         imageDiv.append(image)
+                        ratingP.append(favStar)
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
-                        ratingP.prepend(downloadGif)
-                        ratingP.append(favStar)
                         }
-                       
-                           
-                        
-                    $("#display-results").prepend(resultDiv)
+                    
+                    $("#display-results").prepend(resultDiv);
                     var nextBtnDiv = $("<div class='nextBtn'>"),
                         nextBtn = $("<button class='next12'>")
                     nextBtn.text("Show next 12")
-                    nextBtnDiv.append(nextBtn)
+                    nextBtnDiv.append(nextBtn);
                     $(".next12-results").empty()
                     $(".next12-results").append(nextBtnDiv)
                     
-                    
-
                     $(document).on("click",".next12", function(){
                         for (var j = i; j < (i + 12); j++){
                         imageDiv = $("<div class='imageDiv'>")
@@ -145,22 +138,16 @@ console.log(response.data[0].images.downsized.url)
                         favStar = $("<img class='fav'>")
                         favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",j)
                         image = $("<img class='image'>").attr("src", response.data[j].images.downsized_still.url).attr("data-still",response.data[j].images.downsized_still.url).attr("data-animate",response.data[j].images.downsized.url).attr("data-state","still").addClass("gif").addClass("gif12")
-                        downloadGif = $("<a href='" + response.data[i].images.downsized.url+"' target='_blank'><img class='download' src='assets/images/download.png'></a>")
                         imageDiv.append(image)
+                        ratingP.append(favStar)
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
-                        ratingP.prepend(downloadGif)
-                        ratingP.append(favStar)
-                        
+                        gifAnimate12()
                         }
                         i = i + 12;
                         // resultDiv.append(h);
                         $(".next12-results").empty()
                         $(".next12-results").append(nextBtnDiv)
-                        gifAnimate12()
-                        // favBtn()
-                        
-
                     })
 
 // function to toggle between gif still and gif animate for first 12
@@ -233,7 +220,8 @@ console.log(response.data[0].images.downsized.url)
                         }
                         favAnimate()              
                         favBtn()
-                        gifAnimate()      
+                        gifAnimate()
+                        gifAnimate12()      
              })
              
             
