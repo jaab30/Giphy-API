@@ -7,17 +7,13 @@ html {
     }
 
 body {
-   /* background-color: beige; */
    background-image: url("../images/subtle_stripes.png");
     }
 
-h1{
-    /* background-color: blue; */
+h1 {
     font-family: 'Abril Fatface', cursive;
     font-size: 3em;
-    /* color: white; */
     text-shadow: 2px 2px 10px gray;
-    /* -webkit-text-stroke: 2px black; */
     color: rgb(94, 168, 218);
     text-shadow:
        2px 2px 0 #000,
@@ -25,16 +21,12 @@ h1{
       1px -1px 0 #000,
       -1px 1px 0 #000,
        1px 1px 0 #000;
-}
-.introText{
+    }
+.introText {
     margin:20px 0 0 10px;
     font-size: 1em;
     font-weight: 500;
 
-}
-main{
-    /* background-color: red; */
-    
     }
 
 #actors-form{
@@ -77,8 +69,6 @@ button{
     border-radius:2em;
     border: none;
     box-shadow: 2px 2px 10px rgb(179, 179, 179);
-    /* box-sizing: border-box; */
-    /* text-decoration:none; */
     font-weight:500;
     color:#FFFFFF;
     background-color:rgb(56, 121, 163);
@@ -90,40 +80,25 @@ button:hover {
     background-color:#4095c6;
     }
 
-
-
-#button-container{
-    /* background-color: green; */
-
-    }
 .display-gif{
-    /* background-color: rgb(165, 115, 165); */
     text-align: center;
     padding-left: 30px;
-    /* margin-bottom: 0 0 20px; */
     margin: 0 auto;
     } 
 
 #display-results{
     text-align: center;
-
     }
   .nextBtn {
       text-align: right;
-
-
-
   }
 
 
 .display-favorites{
-    /* background-color: rgb(115, 165, 165); */
     padding-right: 10px;
     text-align: center;
-
-
-
     }  
+
 .imageDiv{
     float: right;
     background-color: white;
@@ -135,15 +110,13 @@ button:hover {
     border: solid 1px black;
     box-shadow: 3px 3px 30px gray;
     }
+
 img {
     width: 275px;
     height:190px;
     padding: 5px;
-    /* margin: 10px; */
-
     }
     .favImg{
-        /* float: left; */
         width:150px;
         height:90px;
         box-shadow: 1px 1px 20px rgb(121, 121, 121);
@@ -155,7 +128,6 @@ img {
         margin: 20px;
         text-align: right;
         padding-right: 40px;
-
     }
    
 
@@ -165,15 +137,49 @@ img {
         font-size: 2em;
         font-weight: 700;
         border-bottom: solid 2px gray;
-        /* box-shadow: 1px 1px 20px rgb(187, 187, 187); */
-
-
     }
+
     .fav {
         width:30px;
         height:30px;
-        margin-left: 20px;
+        margin-left: 40px;
     }
+
+    .weatherImg{
+        width: 80px;
+        Height: 80px;
+        padding: 0;
+        margin: -20px 0;
+    }
+
+    .weather {
+        text-align: left;
+        margin: 0 0 40px 0;
+        padding: 0;
+        text-align: center; 
+    }
+
+    .weather p {
+        margin: 0;
+        font-weight: bold;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1em;
+        line-height: 1.2em;
+    }
+
+    .weather p:last-child{
+        font-weight: normal;
+        font-size:0.8em;
+    }
+
+    .download {
+
+        width:30px;
+        height:30px;
+        text-align: left;
+        margin-right: 30px;
+    }
+
 
 
 

@@ -29,13 +29,15 @@
             </div>
             <form id="actors-form" class="col-sm-2">
                     <label for="actors-input">Add a Comedian </label>
-                    <input type="text" id="actors-input" onfocus="this.value=''"><br>
+                    <input type="text" id="actors-input"><br>
 
                     <input id="add-actor" class="submitBtn" type="submit" value="Submit">   
             </form>
             <div id="button-container" class="col-sm-5">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-1 weather">
+            </div>
+            <div class="col-sm-2">
             </div>
         </div>
         <div class="row test">
@@ -85,6 +87,7 @@
              var input = $("#actors-input").val()
              topics.push(input)
              generateButtons() 
+             $("#actors-input").val("")
      })
  
 // Display API data when any button from the comedians choices is pressed     
@@ -92,11 +95,13 @@
 
  // function to display API data
      function displayApiInformation(){
+        
+        
             var userInput = $(this).attr("data-name");
             $("#display-results").empty()
             introMessage.text("")
              queryURL = "https://api.giphy.com/v1/gifs/search?q=" + userInput + "&api_key=fyFW7rwb11eooeSk5j59XkoxFnPNyYcA&limit=99"
- 
+             
  // get the data from API
              $.ajax({
                  url: queryURL,
@@ -104,32 +109,35 @@
              }).then(function(response){
                 var resultDiv = $("<div>");
 // get data from API and display. Include class and data attr to toggle between animate and still
+console.log(response.data[0].images.downsized.url)
                     for (var i = 0; i < 12; i++){
+                        
                         imageDiv = $("<div class='imageDiv'>")
                         ratingP = $("<p>")
                         ratingP.text("Rating: " + response.data[i].rating)
-                        favStar = $("<img class='fav'>")
-                        favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",i)
+                        favStar = $("<img class='fav'>").attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",i)
                         image = $("<img class='image'>").attr("src", response.data[i].images.downsized_still.url).attr("data-still",response.data[i].images.downsized_still.url).attr("data-animate",response.data[i].images.downsized.url).attr("data-state","still").addClass("gif")
+                        downloadGif = $("<a href='" + response.data[i].images.downsized.url+"' target='_blank'><img class='download' src='assets/images/download.png'></a>")
                         imageDiv.append(image)
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
+                        ratingP.prepend(downloadGif)
                         ratingP.append(favStar)
-                        
                         }
                        
+                           
+                        
                     $("#display-results").prepend(resultDiv)
                     var nextBtnDiv = $("<div class='nextBtn'>"),
-                        nextBtn = $("<button id='next12'>")
+                        nextBtn = $("<button class='next12'>")
                     nextBtn.text("Show next 12")
                     nextBtnDiv.append(nextBtn)
                     $(".next12-results").empty()
                     $(".next12-results").append(nextBtnDiv)
-                    console.log(i)
-                    gifAnimate()
-                   
+                    
+                    
 
-                    $("#next12").on("click", function(){
+                    $(document).on("click",".next12", function(){
                         for (var j = i; j < (i + 12); j++){
                         imageDiv = $("<div class='imageDiv'>")
                         ratingP = $("<p>")
@@ -137,22 +145,27 @@
                         favStar = $("<img class='fav'>")
                         favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",j)
                         image = $("<img class='image'>").attr("src", response.data[j].images.downsized_still.url).attr("data-still",response.data[j].images.downsized_still.url).attr("data-animate",response.data[j].images.downsized.url).attr("data-state","still").addClass("gif").addClass("gif12")
+                        downloadGif = $("<a href='" + response.data[i].images.downsized.url+"' target='_blank'><img class='download' src='assets/images/download.png'></a>")
                         imageDiv.append(image)
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
+                        ratingP.prepend(downloadGif)
                         ratingP.append(favStar)
-                        favBtn()
+                        
                         }
                         i = i + 12;
                         // resultDiv.append(h);
+                        $(".next12-results").empty()
                         $(".next12-results").append(nextBtnDiv)
                         gifAnimate12()
+                        // favBtn()
+                        
 
                     })
 
 // function to toggle between gif still and gif animate for first 12
                     function gifAnimate(){
-                        $(".gif").on("click", function() {
+                        $(".gif").on("click",function() {
                         var state = $(this).attr("data-state")
                             if (state === "still") {
                             $(this).attr("src", $(this).attr("data-animate"))
@@ -162,13 +175,14 @@
                             $(this).attr("data-state","still")
                             }
                         })
+                       
                     }
 
 // function to toggle between gif still and gif animate for next 12
                     function gifAnimate12(){
-                        $(".gif12").on("click", function() {
-                        var state = $(this).attr("data-state")
-                            if (state === "still") {
+                        $(document).on("click",".gif12", function() {
+                        var state1 = $(this).attr("data-state")
+                            if (state1 === "still") {
                             $(this).attr("src", $(this).attr("data-animate"))
                             $(this).attr("data-state","animate")
                             } else {
@@ -179,75 +193,79 @@
                     }
                     
 // function to toggle between gif still and gif animate for Favorites
-                    // function favAnimate(){
-                    //     $(".favImg").on("click", function() {
-                    //     var state = $(this).attr("data-state")
-                    //         if (state === "still") {
-                    //         $(this).attr("src", $(this).attr("data-animate"))
-                    //         $(this).attr("data-state","animate")
-                    //         } else {
-                    //         $(this).attr("src", $(this).attr("data-still"))
-                    //         $(this).attr("data-state","still")
-                    //         }
-                    //     })
-                    // }
+                    function favAnimate(){
+                        $(document).on("click",".favImg", function() {
+                        var state2 = $(this).attr("data-state")
+                            if (state2 === "still") {
+                            $(this).attr("src", $(this).attr("data-animate"))
+                            $(this).attr("data-state","animate")
+                            } else {
+                            $(this).attr("src", $(this).attr("data-still"))
+                            $(this).attr("data-state","still")
+                            }
+                        })
+                    }
 
-                    
                         
 //function to make gif display on Favorite section and to change Fav Star image and status               
-                        function favBtn(){
-                            $(".fav").on("click", function(){
-                                console.log("test")
+                      function favBtn(){
+                            $(document).on("click", ".fav", function(){
+
                                 var fav = $(this).attr("data-fav"); 
                                 
                                 var favGif = $(this).attr("value"),
-                                    imageFav = $("<img class='image'>").attr("src", response.data[favGif].images.fixed_width_small_still.url).attr("data-still",response.data[favGif].images.fixed_width_small_still.url).attr("data-animate",response.data[favGif].images.fixed_width_small.url).attr("data-state","still").addClass("favGif" + favGif).addClass("favImg").addClass("gif")
+                                    imageFav = $("<img class='image'>").attr("src", response.data[favGif].images.fixed_width_small_still.url).attr("data-still",response.data[favGif].images.fixed_width_small_still.url).attr("data-animate",response.data[favGif].images.fixed_width_small.url).attr("data-state","still").addClass("favGif" + favGif).addClass("favImg")
                                 
                                 if (fav === "false"){
                                     $("#favorites").append(imageFav);
                                     $(this).attr("src","assets/images/fav-filled.png")
                                     ratingP.append(favStar)
                                     $(this).attr("data-fav","true");
+                                    
                                  
                                 } else if (fav === "true"){
-                                    console.log(favGif)
                                     $(this).attr("src","assets/images/fav-empty.png")
                                     $(this).attr("data-fav","false");
                                     $(".favGif" + favGif).remove()
                                 }
-                                // favAnimate()
-                                gifAnimate()
                                 
-                            })
-                           
+                            })  
                         }
-
-                        
-                        
-                favBtn()
-                
+                        favAnimate()              
+                        favBtn()
+                        gifAnimate()      
              })
-    
              
-
+            
      }
-
-//  create and append button for favorite
-// on click 
-// change state of the button to fill
-// detach and append gif to fav div
-// store to local storage
-
-
      
+            //API to the OpenWeatherMap API
 
+            // URL we need to query the database
+            var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=Orlando,Burundi&units=imperial&appid=166a433c57516f51dfab1f7edaed8413";
+
+            // AJAX call to the OpenWeatherMap API
+            $.ajax({
+            url: queryURL,
+            method: "GET"
+            }).then(function(response){
+                var weatherIconImage = response.weather[0].icon;
+                var tempDisplay = response.main.temp.toFixed(0);
+                var weatherIconUrl = "http://openweathermap.org/img/w/" + weatherIconImage + ".png";
+                imageWeather = $("<img>").attr("src", weatherIconUrl).addClass("weatherImg");
+                var cityName = $("<p>").text(response.name);
+                var Temp = $("<p>").html("Temp: " + tempDisplay + " &#x2109;");
+                var mainWeather = $("<p>").text(response.weather[0].description);
+                $(".weather").append(imageWeather, cityName, Temp, mainWeather);
+
+            })     
 
     </script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 
 </body>
 </html>
