@@ -25,25 +25,25 @@
     </header>
     <main class="container-fluid">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-md-2">
             </div>
-            <form id="actors-form" class="col-sm-2">
+            <form id="actors-form" class="col-md-2">
                     <label for="actors-input">Add a Comedian </label>
                     <input type="text" id="actors-input"><br>
 
                     <input id="add-actor" class="submitBtn" type="submit" value="Submit">   
             </form>
-            <div id="button-container" class="col-sm-5">
+            <div id="button-container" class="col-md-5">
             </div>
-            <div class="col-sm-1 weather">
+            <div class="col-md-1 weather">
             </div>
-            <div class="col-sm-2">
+            <div class="col-md-2">
             </div>
         </div>
         <div class="row test">
             <div class="col-sm-8 display-gif">
                 <div class="row">
-                    <div class="col-sm-12" id="display-results">
+                    <div class="col-xs-12" id="display-results">
                     </div> 
                 </div> 
                 <div class="row">
@@ -62,6 +62,14 @@
     </main>
 
     <script type="text/javascript">
+    
+
+        var response;
+        var i = 0;
+        var nextBtnDiv;
+        var resultDiv;
+        var imageId;
+        
 // set up Array with choices
         var topics = ["Will Ferrell","Ben Stiller","Vince Vaughn","Tina Fey","Jason Bateman","Jonah Hill","Amy Poehler","Dana Carvey","Seth Rogers","Jim Carey","Mike Myers","Amy Schumer"];
      
@@ -106,54 +114,84 @@
              $.ajax({
                  url: queryURL,
                  method:"GET"
-             }).then(function(response){
+             }).then(function(res){
+                 response = res;
                 var resultDiv = $("<div>");
 // get data from API and display. Include class and data attr to toggle between animate and still
 
                     for (var i = 0; i < 12; i++){
-                        imageDiv = $("<div class='imageDiv'>")
+                        imageDiv = $("<div class='imageDiv'>").attr("data-img-id",response.data[i].id)
+                        imageDivText = $("<div class='inside-text'>")
+                        image = $("<img class='image'>").attr("src", response.data[i].images.downsized_still.url).attr("data-still",response.data[i].images.downsized_still.url).attr("data-animate",response.data[i].images.downsized.url).attr("data-state","still").addClass("gif")
                         ratingP = $("<p>")
                         ratingP.text("Rating: " + response.data[i].rating)
-                        favStar = $("<img class='fav'>").attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",i)
-                        image = $("<img class='image'>").attr("src", response.data[i].images.downsized_still.url).attr("data-still",response.data[i].images.downsized_still.url).attr("data-animate",response.data[i].images.downsized.url).attr("data-state","still").addClass("gif")
+                        favStar = $("<img class='fav'>").attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",i).attr("data-img-id",response.data[i].id)
+                        
                         imageDiv.append(image)
                         ratingP.append(favStar)
-                        imageDiv.append(ratingP)
+                        imageDivText.append(ratingP)
+                        imageDiv.append(imageDivText)
                         resultDiv.append(imageDiv)
+
+
+                        $(".favImg").each(function(i){
+                                if ($(this).attr("data-fav-id") === favStar.attr("data-img-id")) {
+                                favStar.attr("src", "assets/images/fav-filled.png").attr("data-fav","true");
+                                }   
+                            })
+
                         }
                     
-                    $("#display-results").prepend(resultDiv);
+                    $("#display-results").append(resultDiv);
                     var nextBtnDiv = $("<div class='nextBtn'>"),
-                        nextBtn = $("<button class='next12'>")
+                        nextBtn = $("<button class='next12'>").attr("value","12")
                     nextBtn.text("Show next 12")
                     nextBtnDiv.append(nextBtn);
                     $(".next12-results").empty()
                     $(".next12-results").append(nextBtnDiv)
+            })
+        }
                     
                     $(document).on("click",".next12", function(){
-                        for (var j = i; j < (i + 12); j++){
-                        imageDiv = $("<div class='imageDiv'>")
+                        
+                        var i = $(this).attr("value");
+                        var k = parseInt(i) + 12;
+                        
+                        $(".nextBtn").empty()
+                        
+                        var resultDiv = $("<div>");
+                        for (var j = i; j < k; j++){
+
+                        imageDiv = $("<div class='imageDiv'>").attr("data-img-id",response.data[j].id)
                         ratingP = $("<p>")
                         ratingP.text("Rating: " + response.data[j].rating)
                         favStar = $("<img class='fav'>")
-                        favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",j)
+                        favStar.attr("src","assets/images/fav-empty.png").attr("data-fav","false").attr("value",j).attr("data-img-id",response.data[j].id)
                         image = $("<img class='image'>").attr("src", response.data[j].images.downsized_still.url).attr("data-still",response.data[j].images.downsized_still.url).attr("data-animate",response.data[j].images.downsized.url).attr("data-state","still").addClass("gif").addClass("gif12")
+                      
                         imageDiv.append(image)
                         ratingP.append(favStar)
                         imageDiv.append(ratingP)
                         resultDiv.append(imageDiv)
-                        gifAnimate12()
-                        favBtn()
+
+                            $(".favImg").each(function(){
+                                    if ($(this).attr("data-fav-id") === favStar.attr("data-img-id")) {
+                                    favStar.attr("src", "assets/images/fav-filled.png").attr("data-fav","true");
+                                    }   
+                            })
                         }
-                        i = i + 12;
-                        // resultDiv.append(h);
-                        $(".next12-results").empty()
+                        
+                        $(".next12-results").append(resultDiv);
+                        var nextBtnDiv = $("<div class='nextBtn'>");
+                        nextBtn = $("<button class='next12'>")
+                        nextBtn.text("Show next 12").attr("value",j)
+                        nextBtnDiv.append(nextBtn);
                         $(".next12-results").append(nextBtnDiv)
                     })
 
 // function to toggle between gif still and gif animate for first 12
                     function gifAnimate(){
-                        $(".gif").on("click",function() {
+                        $(document).on("click",".gif",function() {
                         var state = $(this).attr("data-state")
                             if (state === "still") {
                             $(this).attr("src", $(this).attr("data-animate"))
@@ -166,44 +204,18 @@
                        
                     }
 
-// function to toggle between gif still and gif animate for next 12
-                    function gifAnimate12(){
-                        $(document).on("click",".gif12", function() {
-                        var state1 = $(this).attr("data-state")
-                            if (state1 === "still") {
-                            $(this).attr("src", $(this).attr("data-animate"))
-                            $(this).attr("data-state","animate")
-                            } else {
-                            $(this).attr("src", $(this).attr("data-still"))
-                            $(this).attr("data-state","still")
-                            }
-                        })
-                    }
-                    
-// function to toggle between gif still and gif animate for Favorites
-                    function favAnimate(){
-                        $(document).on("click",".favImg", function() {
-                        var state2 = $(this).attr("data-state")
-                            if (state2 === "still") {
-                            $(this).attr("src", $(this).attr("data-animate"))
-                            $(this).attr("data-state","animate")
-                            } else {
-                            $(this).attr("src", $(this).attr("data-still"))
-                            $(this).attr("data-state","still")
-                            }
-                        })
-                    }
 
-                        
-//function to make gif display on Favorite section and to change Fav Star image and status               
-                      function favBtn(){
-                            $(".fav").on("click", function(){
+//function to make gif display on Favorite section and to change Fav Star image and status  
+                        function favBtn(){
+                            $(document.body).on("click",".fav", function(){
 
+                                var imgId = $(this).attr("data-img-id")
+                                console.log(imgId)
+                                
                                 var fav = $(this).attr("data-fav"); 
-                                
-                                var favGif = $(this).attr("value"),
-                                    imageFav = $("<img class='image'>").attr("src", response.data[favGif].images.fixed_width_small_still.url).attr("data-still",response.data[favGif].images.fixed_width_small_still.url).attr("data-animate",response.data[favGif].images.fixed_width_small.url).attr("data-state","still").addClass("favGif" + favGif).addClass("favImg")
-                                
+                                var favGif = $(this).attr("value")
+                                imageFav = $("<img class='image'>").attr("src", response.data[favGif].images.fixed_width_small_still.url).attr("data-still",response.data[favGif].images.fixed_width_small_still.url).attr("data-animate",response.data[favGif].images.fixed_width_small.url).attr("data-state","still").addClass("Id_" + response.data[favGif].id).addClass("gif").addClass("favImg").attr("data-fav-id",response.data[favGif].id)
+
                                 if (fav === "false"){
                                     $("#favorites").append(imageFav);
                                     $(this).attr("src","assets/images/fav-filled.png")
@@ -214,20 +226,15 @@
                                 } else if (fav === "true"){
                                     $(this).attr("src","assets/images/fav-empty.png")
                                     $(this).attr("data-fav","false");
-                                    $(".favGif" + favGif).remove()
+                                    $(".Id_" +imgId).remove()
                                 }
                                 
-                            })  
-                        }
-                        favAnimate()              
+                            })
+                                
+                        }     
                         favBtn()
-                        gifAnimate()
-                        gifAnimate12()      
-             })
-             
+                        gifAnimate()     
             
-     }
-     
             //API to the OpenWeatherMap API
 
             // URL we need to query the database
