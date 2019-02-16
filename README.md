@@ -14,3 +14,8 @@ https://jaab30.github.io/Giphy-API/
 
 Enjoy...
 
+<br>
+
+<img src="https://user-images.githubusercontent.com/40499942/52906199-f6a11f80-3214-11e9-8c83-c70194223fe2.png" alt="Giphy Image" width="400px" height="320px">
+<img src="https://user-images.githubusercontent.com/40499942/52906200-f6a11f80-3214-11e9-98ae-5d3650b45394.png" alt="Giphy Image" width="400px" height="320px">
+
