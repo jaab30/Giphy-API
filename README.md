@@ -8,5 +8,9 @@ Users have also the choice to display more results by clicking on the "Next !2" 
 There is also a "Favorites Star" button under each image. The "Favorites" button will display the images on the right side under the "Favorites" section. By clicking on the "Favorites" button again, the image will dissapear from the Favorites section.
 The Website also access the "WeatherMap" API and it display the current weather on the top-right section of the page...
 
+Web Tools: HTML5, CSS#, JavaScript, jQuery, Bootstrap, API and AJAX.
+
+https://jaab30.github.io/Giphy-API/
+
 Enjoy...
 
